@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
@@ -22,19 +23,37 @@ public class Paintera extends javax.swing.JFrame {
     
     Line2D.Double linea = new Line2D.Double();
     
-    
+     private BufferedImage buffer = null;
     
     public Paintera() {
         initComponents();
-        int ancho = jPanel1.getWidth();
-        int alto = jPanel1.getHeight();
-        buffer = (BufferedImage) jPanel1.createImage(ancho, alto);
+        int anchoPanel = jPanel1.getWidth();
+        int altoPanel = jPanel1.getHeight();
+        
+        //enlazo el buffer al jPanel
+        buffer = (BufferedImage) jPanel1.createImage(anchoPanel, altoPanel);
+        
+        //inicializa el buffer para que sea de color blanco
         Graphics2D g2 = buffer.createGraphics();
         g2.setColor (Color.WHITE);
-        g2.fillRect (0,0,ancho,alto);
+        g2.fillRect (0,0,anchoPanel,altoPanel);
     }
     
-    private BufferedImage buffer = null;
+    @Override
+    public void paint (Graphics g){
+        //llamo al paintComponents 
+        //de la clase jFrame
+        //para que se pinten bien los objetos
+        //de la aplicacion
+        super.paintComponents(g);
+        //a continuacion apunto al jPanel
+        Graphics2D g2 = (Graphics2D) jPanel1.getGraphics();
+        //pinto el buffer sobre el jPanel
+        g2.drawImage(buffer, 0, 0, null);
+        
+    }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,11 +65,12 @@ public class Paintera extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jPanel1MouseDragged(evt);
@@ -69,12 +89,16 @@ public class Paintera extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 814, Short.MAX_VALUE)
+            .addGap(0, 626, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 506, Short.MAX_VALUE)
+            .addGap(0, 482, Short.MAX_VALUE)
         );
+
+        jButton1.setText("CIRCULO");
+
+        jButton2.setText("CUADRADO");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,14 +107,24 @@ public class Paintera extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,6 +190,8 @@ public class Paintera extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
